@@ -1,0 +1,2 @@
+
+*   Mention the type restriction.

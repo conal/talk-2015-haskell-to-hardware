@@ -1,0 +1,141 @@
+%% Misc lhs2TeX directives
+
+%format Unit = " \mathbf{1} "
+%% %format Unit = " \mathbbm{1} "
+%format :* = " \times "
+%format :+ = " + "
+
+%format <> = " \mathbin{\oplus} "
+%format `mappend` = " \mathbin{\oplus} "
+%format mempty = epsilon
+
+%format <$> = "\mathbin{<\!\!\!\$\!\!\!>}"
+
+% Got from Andres L:
+\newcommand{\calculationcomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \def\commentbegin{\quad\{ }%
+  \def\commentend{\}}%
+}
+\calculationcomments
+
+%% hack: add missing space, e.g., before "{" in data type decl
+%format SPACE = "\ {}"
+%% Small space
+%format SSPACE = "{}"
+
+%format PAUSE = "\pause "
+
+%format BACK = "{\Back}"
+%format BACKQ a = "{\Back}"
+%format PBACK = "\pause\Back"
+
+% \renewcommand{\onelinecomment}{\it}
+
+%% %format (meaning (a)) = "\db{" a "}"
+%% %format meaning' (a) x = "\db{" a "}" x
+
+%format meaning  = mu
+%format meaning' = mu
+%format meaningInv = mu "^{-1}"
+
+%% %format Meaning = "\Mu"
+%% %format meaning = "\mu"
+
+%% %format Lin1 = Lin "_1"
+
+%% %format idL = "\Varid{id_L}"
+%format idL = "\widehat{" id "}"
+
+%format @. = "\mathbin{\hat{\circ}}"
+%format @* = "\mathbin{\times}"
+
+%format NO = "{}"
+
+%format -* = "\multimap"
+
+%format :-* = "\mathbin{:"-*"}"
+
+%% %format :-* = "\mathbin{\mathtt{:\!\!-\!*}}"
+
+
+%format Lin = "(":-*")"
+
+%format :&& = "\mathbin{:\!"&&&"}"
+%format :|| = "\mathbin{:\!"|||"}"
+
+%format *** = "\!\times\!"
+%format &&& = "\mathbin{\smalltriangleup}"
+%format ||| = "\mathbin{\smalltriangledown}"
+%format +++ = "\!+\!"
+
+%format Prod (k) a b = a "\times_{\hspace{-0.1ex}\scriptscriptstyle{" k "}}" b
+%format Coprod (k) a b = a "+_{\hspace{-0.4ex}\scriptscriptstyle{" k "}}" b
+%format Exp (k) a b = a "\Rightarrow_{\hspace{-0.4ex}\scriptscriptstyle{" k "}}" b
+
+%format ~> = "\leadsto"
+
+%% %format T = "{\cal T}"
+%% %format T = "{\cal R}"
+%format T = "\mathbb{R}"
+
+%format R2 = "\mathbb{R}^2"
+
+%format <$> = "\mathbin{<\!\!\!\$\!\!\!>}"
+%format <*> = "\mathbin{<\!\!\!*\!\!\!>}"
+
+%format :->: = "\twoheadrightarrow"
+%format <== = "\Leftarrow"
+
+%format liftA2 = "\Varid{liftA_2}"
+%format liftA3 = "\Varid{liftA_3}"
+%format liftA4 = "\Varid{liftA_4}"
+
+%format lift0 = "\Varid{lift_0}"
+%format lift1 = "\Varid{lift_1}"
+%format lift2 = "\Varid{lift_2}"
+%format lift3 = "\Varid{lift_3}"
+%format lift4 = "\Varid{lift_4}"
+
+% %format :=> = "\mapsto"
+%format :=> = "\dashrightarrow"
+
+%format :> = "\rightarrowtail"
+
+%format :< = "\triangleleft"
+
+%format not = "\Varid{not}"
+%format :# = "\mathbin{:\!\!\#}"
+%format cdot = "(\cdot)"
+%format `cdot` = "\cdot"
+%format $@ = "\mathbin{\hat{\$}}"
+%format .@ = "\mathbin{\hat{\circ}}"
+
+%% %format Matrix = Mat "_V"
+%% %format MatrixT = Mat "_T"
+%% %format Matrix = Mat
+%% %format MatrixT = MatT
+
+%format Matrix (m) (n) = Mat"_{"m","n"}"
+%format MatrixT (m) (n) = MatT"_{"m","n"}"
+
+%format N0 = 0
+%format N1 = 1
+%format N2 = 2
+%format N3 = 3
+%format N4 = 4
+%format N5 = 5
+%format N6 = 6
+%format N7 = 7
+%format N8 = 8
+
+%format VecTy = "\Varid{Vec}"
+%format TreeTy = "\Varid{Tree}"
+
+%format Vec (n) = VecTy"_{"n"}"
+%format Tree (n) = TreeTy"_{"n"}"
+
+%format Z = 0
+%format S n = 1 + n
+
+%format sequenceA = transpose
