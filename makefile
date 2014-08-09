@@ -1,4 +1,4 @@
-TARG = everyware
+TARG = haskell-to-hardware
 
 .PRECIOUS: %.tex %.pdf %.web
 

@@ -12,7 +12,7 @@ Unused/
 *.snm
 *.toc
 
-everyware.tex
-everyware.pdf
+haskell-to-hardware.tex
+haskell-to-hardware.pdf
 
 web-token
