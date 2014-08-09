@@ -81,31 +81,20 @@
 
 \framet{Tabula}{
 
-\begin{itemize}\parskip1ex
-\item
-  Founded by Steve Teig about 10 years ago.
-\item
-  Post-FPGA reconfigurable hardware.
-\item
-  Spacetime architecture:
+\begin{itemize}\parskip0.5ex
+\item Founded by Steve Teig about 10 years ago.
+\item Post-FPGA reconfigurable hardware.
+\item Spacetime architecture:
   \begin{itemize}
-  \item
-    3D for shorter paths
-  \item
-    Implemented by rapid reconfiguration (2GHz)
-  \item
-    Minkowski spacetime (special relativity)
-  \item
-    Spacetime layout with causality constraints.
-  \item
-    Very high sustained throughput
+  \item 3D for shorter paths
+  \item Implemented by rapid reconfiguration (2GHz)
+  \item Minkowski spacetime (special relativity)
+  \item Spacetime layout with causality constraints
+  \item Very high sustained throughput
   \end{itemize}
-\item
-  Tremendous flexibility for moving computations in space \& time
-\item
-  Program in a non-sequential language: Haskell
-\item
-  Compiler \href{https://github.com/conal/lambda-ccc/}{developed openly} and shared freely
+\item Tremendous flexibility for moving computations in space \& time
+\item Program in a non-sequential language: Haskell
+\item Compiler \href{https://github.com/conal/lambda-ccc/}{developed openly} and shared freely
 \end{itemize}
 
 }
@@ -152,11 +141,10 @@ Powerful abstraction mechanisms:
 \item Lambda/application
 \item Type classes
 \end{itemize}
-They mechanisms don't go together.
 
-\pause
+\vspace{1ex}
 
-But they can.
+Can we use type classes to generalize lambda \& application?
 
 }
 
