@@ -4,7 +4,7 @@
 
 % Presentation
 \documentclass{beamer}
-% \documentclass[handout]{beamer}
+%% \documentclass[handout]{beamer}
 
 %% % Printed, 2-up
 %% \documentclass[serif,handout]{beamer}
@@ -98,6 +98,82 @@
 \end{itemize}
 
 }
+
+\framet{Example}{
+
+> square :: Num a => a -> a
+> square a = a * a
+
+> sumSquare :: (Functor f, Foldable f, Num a) => f a -> a
+> sumSquare = sum . fmap square
+
+}
+
+\framet{|sumSquare :: Tree N2 Int -> Int|}{
+
+\begin{center}
+\begin{minipage}[c]{0.35\textwidth}\ \end{minipage}
+\begin{minipage}[c]{0.4\textwidth}
+
+> sumSquare = sum . fmap square
+
+\end{minipage}
+\end{center}
+
+\vspace{-13ex}
+\wfig{3.2in}{figures/sumSquare-t2}
+
+}
+
+\framet{|sumSquare :: Tree N2 Int -> Int|}{
+
+\begin{center}
+\begin{minipage}[c]{0.0\textwidth}
+{\tiny
+\begin{verbatim}
+module sumSquare-t2 (In_0, In_1, In_2, In_3, Out);
+  input [0:31] In_0;
+  input [0:31] In_1;
+  input [0:31] In_2;
+  input [0:31] In_3;
+  output [0:31] Out;
+  wire [0:31] w_mul_I1;
+  wire [0:31] w_mul_I2;
+  wire [0:31] w_mul_I3;
+  wire [0:31] w_mul_I4;
+  wire [0:31] w_add_I5;
+  wire [0:31] w_add_I6;
+  wire [0:31] w_add_I7;
+  assign w_mul_I1 = In_0 * In_0;
+  assign w_mul_I2 = In_1 * In_1;
+  assign w_mul_I3 = In_2 * In_2;
+  assign w_mul_I4 = In_3 * In_3;
+  assign w_add_I5 = w_mul_I1 + w_mul_I2;
+  assign w_add_I6 = w_mul_I3 + w_mul_I4;
+  assign w_add_I7 = w_add_I5 + w_add_I6;
+  assign Out = w_add_I7;
+endmodule
+\end{verbatim}
+}
+\end{minipage}
+\hspace{-7ex}
+\begin{minipage}[c]{0.5\textwidth}
+\wfig{2.5in}{figures/sumSquare-t2}
+\end{minipage}
+\end{center}
+}
+
+\framet{|sumSquare :: Tree N3 Int -> Int|}{
+\vspace{0ex}
+\wfig{3in}{figures/sumSquare-t3}
+}
+
+\framet{|sumSquare :: Tree N4 Int -> Int|}{
+\vspace{0ex}
+\wfig{2.9in}{figures/sumSquare-t4}
+}
+
+\framet{}{\begin{center} \huge{\emph{\textcolor{blue}{How it works}}} \end{center}}
 
 \framet{Overall plan}{
 
@@ -279,7 +355,7 @@ Laws (dual to product):
 
 \framet{Lambda to CCC}{
 
-> (\ v -> k)         :=>  const k  -- v not free in k
+> (\ p -> k)         :=>  const k  -- v not free in k
 > (\ v -> v)         :=>  id
 > (\ p -> v)         :=>  ...      -- accessor
 > (\ p -> u v)       :=>  apply . ((\ p -> u) &&& (\ p -> v))
@@ -574,9 +650,14 @@ For instance,
 
 }
 
-\framet{|($@) :: MatrixT N2 N3 Int -> Tree N2 Int -> Tree N3 Int|}{
+\framet{|($@) :: MatrixT N2 N1 Int -> Tree N2 Int -> Tree N1 Int|}{
 \vspace{-1ex}
-\wfig{2.75in}{figures/applyLin-t23}
+\wfig{2.75in}{figures/applyLin-t21}
+}
+
+\framet{|($@) :: MatrixT N2 N2 Int -> Tree N2 Int -> Tree N2 Int|}{
+\vspace{-1ex}
+\wfig{2.75in}{figures/applyLin-t22}
 }
 
 \framet{Composing linear transformations}{
