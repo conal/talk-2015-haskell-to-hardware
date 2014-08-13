@@ -177,17 +177,23 @@ endmodule
 
 \framet{Overall plan}{
 
-\begin{itemize}\parskip1.7ex
-\item Use GHC to convert full Haskell to small Core language.
-\item Convert to more abstract representation.
+\begin{itemize}
+% \item Use GHC to convert full Haskell to small Core language.
+\item Convert Haskell to Core (GHC).
+\item Convert to abstract vocabulary.
 \item Interpret as circuits.
-\item Translate to hardware description language.
+%% \item Translate to netlists.
 \item Synthesize \& optimize with existing HDL machinery.
 \end{itemize}
 
 \vspace{2ex}
 
-At first, tackle only shape-typed data.
+Initial simplifications:
+\begin{itemize}
+\item Shape-typed data
+\item Combinational
+\end{itemize}
+
 }
 
 \framet{GHC Core}{
@@ -232,7 +238,7 @@ Can we use type classes to generalize lambda \& application?
 \item
   \emph{Cartesian}: products
 \item
-  \emph{Co-cartisian}: coproducts (``sums'')
+  \emph{Co-Cartesian}: coproducts (``sums'')
 \item
   \emph{Closed}: exponentials (arrows as ``values'')
 \end{itemize}
@@ -361,13 +367,16 @@ Laws (dual to product):
 > (\ p -> u v)       :=>  apply . ((\ p -> u) &&& (\ p -> v))
 > (\ p -> \ q -> u)  :=>  curry (\ (p,q) -> u)
 
+\pause
+
 > convert ::  CCC (~>) => Pat a -> E b -> (a ~> b)
-> convert _  (Const x)   = unitArrow x . it
+> convert _  (Const x)   = constArrow x
 > convert p  (Var v)     = convertVar p v
 > convert p  (App u v)   = apply . (convert p u &&& convert p v)
 > convert p  (Lam q e)   = curry (convert (PairPat p q) e)
 
-\hrefc{https://github.com/ku-fpg/lambda-ccc/blob/master/src/LambdaCCC/ToCCC.hs}{source}
+%% \hrefc{https://github.com/ku-fpg/lambda-ccc/blob/master/src/LambdaCCC/ToCCC.hs}{source}
+
 }
 
 \framet{Circuit CCC}{
@@ -376,7 +385,7 @@ Laws (dual to product):
 >
 > type CircuitM = WriterT (Seq Comp) (State PinSupply)
 
-> newtype a :> b = C { Kleisli CircuitM (Buses a) (Buses b) }
+> newtype a :> b = Circ (Buses a -> CircuitM (Buses b))
 
 > instance Category      (:>) where ...
 > instance ProductCat    (:>) where ...
@@ -386,15 +395,59 @@ Laws (dual to product):
 
 \framet{}{\begin{center} \huge{\emph{\textcolor{blue}{Examples}}} \end{center}}
 
+\framet{|sumSquare :: Tree N2 Int -> Int|}{
+
+\begin{center}
+\begin{minipage}[c]{0.35\textwidth}\ \end{minipage}
+\begin{minipage}[c]{0.4\textwidth}
+
+> sumSquare = sum . fmap square
+
+\end{minipage}
+\end{center}
+
+\vspace{-13ex}
+\wfig{3.2in}{figures/sumSquare-t2}
+
+}
+
+\framet{|sumSquare :: Tree N2 Int -> Int|}{
+
+\begin{center}
+{\tiny
+\begin{verbatim}
+
+uncurry (apply . (curry (apply . (curry (apply . (curry (apply . (curry (curry
+(apply . (curry (apply . (apply . (curry (curry (uncurry add) . exr) . it &&&
+apply . (curry (repr . exr) . it &&& apply . (((((id . exr) . exl) . exl) . exl)
+. id *** (id . exl) . id))) &&& apply . (curry (repr . exr) . it &&& apply .
+(((((id . exr) . exl) . exl) . exl) . id *** (id . exr) . id)))) &&& apply .
+(curry (repr . exr) . it &&& apply . (curry (apply . (curry (abst . exr) . it
+&&& apply . (apply . (curry (curry id . exr) . it &&& apply . (((id . exr) .
+exl) . id *** (id . exl) . id)) &&& apply . (((id . exr) . exl) . id *** (id .
+exr) . id)))) &&& apply . (curry (repr . exr) . it &&& apply . (curry (repr .
+exr) . it &&& id . exr))))))) &&& curry (apply . (curry (abst . exr) . it &&&
+apply . (curry (apply . (curry (abst . exr) . it &&& apply . (apply . (curry
+(curry id . exr) . it &&& apply . (((id . exr) . exl) . id *** (id . exl) . id))
+&&& apply . (((id . exr) . exl) . id *** (id . exr) . id)))) &&& apply . (curry
+(repr . exr) . it &&& apply . (curry (repr . exr) . it &&& id . exr))))))) &&&
+curry (apply . (curry (apply . (curry (abst . exr) . it &&& apply . (apply .
+(curry (curry (uncurry mul) . exr) . it &&& id . exr) &&& id . exr))) &&& apply
+. (curry (repr . exr) . it &&& id . exr))))) &&& curry (apply . (curry (apply .
+(curry (abst . exr) . it &&& apply . (apply . (curry (curry (uncurry add) . exr)
+. it &&& apply . (curry (repr . exr) . it &&& apply . (((id . exr) . exl) . id
+*** (id . exl) . id))) &&& apply . (curry (repr . exr) . it &&& apply . (((id .
+exr) . exl) . id *** (id . exr) . id))))) &&& apply . (curry (repr . exr) . it
+&&& apply . (curry (repr . exr) . it &&& id . exr)))))) &&& curry (apply .
+(curry (abst . exr) . it &&& apply . (curry (repr . exr) . it &&& id . exr)))))
+. (it &&& id)
+
+\end{verbatim}
+}
+\end{center}
+}
+
 \framet{|\ (a,b) -> a+b :: Int|}{\parskip3ex
-
-\vspace{3ex}
-
-> apply  . (apply . (curry (add . exr) . it &&& exl . exr) &&& exr . exr)
->        . (it &&& id)
-
-\vspace{-7ex}
-\pause
 
 \begin{center}
 \begin{minipage}[c]{0.45\textwidth}
