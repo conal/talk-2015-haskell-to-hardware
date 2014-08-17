@@ -1,7 +1,8 @@
 %% Misc lhs2TeX directives
 
-%format Unit = " \mathbf{1} "
 %% %format Unit = " \mathbbm{1} "
+%% %format Unit = " \mathbf{1} "
+%format Unit = ()
 %format :* = " \times "
 %format :+ = " + "
 
@@ -139,3 +140,19 @@
 %format S n = 1 + n
 
 %format sequenceA = transpose
+
+%format ZfRepSum = "\Varid{\$fRepSum}"
+%format ZfRepPair = "\Varid{\$fRepPair}"
+%format ZfRepTree0 = "\Varid{\$fRepTree0}"
+%format ZfRepTree = "\Varid{\$fRepTree}"
+%format ZfNumInt_ZcP = "\Varid{\$fNumInt+}"
+
+%format f0 = "f_0"
+%format f1 = "f_1"
+%format f2 = "f_2"
+%format f3 = "f_3"
+%format f4 = "f_4"
+%format f5 = "f_5"
+%format f6 = "f_6"
+%format f7 = "f_7"
+%format f8 = "f_8"
