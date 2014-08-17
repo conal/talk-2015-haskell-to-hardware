@@ -180,6 +180,7 @@ endmodule
 \begin{itemize}
 % \item Use GHC to convert full Haskell to small Core language.
 \item Convert Haskell to Core (GHC).
+\item Monomorphize.
 \item Convert to abstract vocabulary.
 \item Interpret as circuits.
 %% \item Translate to netlists.
@@ -361,8 +362,7 @@ Laws (dual to product):
 
 \framet{Lambda to CCC}{
 
-> (\ p -> k)         :=>  const k  -- v not free in k
-> (\ v -> v)         :=>  id
+> (\ p -> k)         :=>  const k
 > (\ p -> v)         :=>  ...      -- accessor
 > (\ p -> u v)       :=>  apply . ((\ p -> u) &&& (\ p -> v))
 > (\ p -> \ q -> u)  :=>  curry (\ (p,q) -> u)
@@ -383,7 +383,7 @@ Laws (dual to product):
 
 > data Comp = forall a b. Comp (Prim a b) (Buses a) (Buses b)
 >
-> type CircuitM = WriterT (Seq Comp) (State PinSupply)
+> type CircuitM = WriterT (Seq Comp) (State BusSupply)
 
 > newtype a :> b = Circ (Buses a -> CircuitM (Buses b))
 
@@ -497,22 +497,10 @@ endmodule
 \wfig{3.5in}{figures/sum-p}
 }
 
-\framet{|sum . fmap square :: Pair Int -> Int|}{
-
-\begin{center}
-\begin{minipage}[c]{0.45\textwidth}\ \end{minipage}
-\begin{minipage}[c]{0.4\textwidth}
-
-> square :: Num a => a -> a
-> square a = a * a
-
-\end{minipage}
-\end{center}
-
-\vspace{-17ex}
-\wfig{4in}{figures/sumSquare-p}
+\framet{|sumSquare :: Pair Int -> Int|}{
+%\vspace{-2ex}
+\wfig{3.7in}{figures/sumSquare-p}
 }
-
 
 \framet{Length-typed vectors}{
 
@@ -597,6 +585,41 @@ Easily generalize beyond |Pair|.
 \framet{|sum :: Tree N4 Int -> Int|}{
 \vspace{-1ex}
 \wfig{3.1in}{figures/sum-t4}
+}
+
+\framet{|sum :: Tree N3 Int -> Int|}{
+
+\vspace{-1ex}
+Monomorphized \& simplified GHC Core:
+
+{\tiny
+
+> let  f0 :: Tree N0 Int -> Sum Int
+>      f0 = \ ds ->
+>        abst ZfRepSum (repr ZfRepTree0 ds)
+>      f1 :: Tree N1 Int -> Sum Int
+>      f1 = \ ds ->
+>        case repr ZfRepPair (repr ZfRepTree ds) of
+>          (,) a b ->
+>            abst ZfRepSum
+>                 (ZfNumInt_ZcP  (repr ZfRepSum (f0 a))
+>                                (repr ZfRepSum (f0 b)))
+>      f2 :: Tree N2 Int -> Sum Int
+>      f2 = \ ds ->
+>        case repr ZfRepPair (repr ZfRepTree ds) of
+>          (,) a b ->
+>            abst ZfRepSum
+>                 (ZfNumInt_ZcP  (repr ZfRepSum (f1 a))
+>                                (repr ZfRepSum (f1 b)))
+> in SPACE \ eta ->
+>       repr ZfRepSum
+>            (case repr ZfRepPair (repr ZfRepTree eta) of
+>               (,) a b ->
+>                 abst ZfRepSum
+>                      (ZfNumInt_ZcP  (repr ZfRepSum (f2 a))
+>                                     (repr ZfRepSum (f2 b))))
+
+}
 }
 
 \framet{|sequenceA :: Pair (Tree N4 Int) -> Tree N4 (Pair Int)|}{
@@ -689,7 +712,8 @@ where
 
 \framet{|Generalizing linear transformations|}{
 
-> ($@) :: (IsNat m, Num a) => Matrix m n a -> Vec m a -> Vec n a
+> ($@) ::  (IsNat m, Num a) =>
+>          Vec n (Vec m a) -> Vec m a -> Vec n a
 > mat $@ vec = (`cdot` vec) <$> mat
 
 More simply and generally,
