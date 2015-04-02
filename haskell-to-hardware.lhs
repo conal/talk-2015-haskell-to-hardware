@@ -53,7 +53,38 @@
 %include polycode.fmt
 %include forall.fmt
 %include greek.fmt
+
 %include mine.fmt
+
+%% %% A subset of mine.fmt. Steve wanted more conventional looking code.
+%% %format not = "\Varid{not}"
+%% %format :# = "\mathbin{:\!\#}"
+%% %format ~> = "\leadsto"
+%% %format Prod (k) a b = a "\times_{\hspace{-0.1ex}\scriptscriptstyle{" k "}}" b
+%% %format Coprod (k) a b = a "+_{\hspace{-0.4ex}\scriptscriptstyle{" k "}}" b
+%% %format Exp (k) a b = a "\Rightarrow_{\hspace{-0.4ex}\scriptscriptstyle{" k "}}" b
+%% %format *** = "\!\times\!"
+%% %format &&& = "\mathbin{\smalltriangleup}"
+%% %format ||| = "\mathbin{\smalltriangledown}"
+%% %format +++ = "\!+\!"
+%% %format N0 = 0
+%% %format N1 = 1
+%% %format N2 = 2
+%% %format N3 = 3
+%% %format N4 = 4
+%% %format N5 = 5
+%% %format N6 = 6
+%% %format N7 = 7
+%% %format N8 = 8
+%% %% Tweaked
+%% %format <$> = "\mathbin{<\!\!\$\!\!>}"
+%% %format <.> = "\mathbin{<\!.\!>}"
+%% %% hack: add missing space, e.g., before "{" in data type decl
+%% %format SPACE = "\ {}"
+%% %% Small space
+%% %format SSPACE = "{}"
+%% %format :=> = "\dashrightarrow"
+%% \setbeamerfont{frametitle}{size=\small}
 
 \title{From Haskell to Hardware via CCCs}
 \author{\href{http://conal.net}{Conal Elliott}}
@@ -489,7 +520,7 @@ endmodule
 
 \vspace{8ex}
 
-|Functor|, |Applicative|, |Monad|, |Foldable|, |Traversable| (|sequenceA|).
+|Functor|, |Applicative|, |Monad|, |Foldable|, |Traversable|.
 
 }
 
@@ -622,16 +653,6 @@ Monomorphized \& simplified GHC Core:
 }
 }
 
-\framet{|sequenceA :: Pair (Tree N4 Int) -> Tree N4 (Pair Int)|}{
-\vspace{-2ex}
-\wfig{2.1in}{figures/transpose-pt4}
-}
-
-\framet{|sequenceA :: Tree N4 (Pair Int) -> Pair (Tree N4 Int)|}{
-\vspace{-2ex}
-\wfig{2.1in}{figures/transpose-t4p}
-}
-
 \framet{Dot products}{
 
 > dot ::  (Foldable g, Foldable f, Num (f a), Num a) =>
@@ -651,6 +672,16 @@ where
 
 > transpose :: (Traversable t, Applicative f) => t (f a) -> f (t a)
 
+}
+
+\framet{|transpose :: Pair (Tree N4 Int) -> Tree N4 (Pair Int)|}{
+\vspace{-2ex}
+\wfig{1.83in}{figures/transpose-pt4}
+}
+
+\framet{|transpose :: Tree N4 (Pair Int) -> Pair (Tree N4 Int)|}{
+\vspace{-2ex}
+\wfig{1.83in}{figures/transpose-t4p}
 }
 
 \framet{|dot :: Pair (Tree N1 Int) -> Int|}{
@@ -685,15 +716,15 @@ where
 
 \framet{Linear transformations}{
 
-> cdot :: (Foldable f, Num (f a), Num a) => f a -> f a -> a
-> u `cdot` v = dot (u :# v)
+> (<.>) :: (Foldable f, Num (f a), Num a) => f a -> f a -> a
+> u <.> v = dot (u :# v)
 
 \pause
 
 > type Matrix m n a = Vec n (Vec m a)
 
 > ($@) :: (IsNat m, Num a) => Matrix m n a -> Vec m a -> Vec n a
-> mat $@ vec = (`cdot` vec) <$> mat
+> mat $@ vec = (<.> vec) <$> mat
 
 }
 
@@ -714,7 +745,7 @@ where
 
 > ($@) ::  (IsNat m, Num a) =>
 >          Vec n (Vec m a) -> Vec m a -> Vec n a
-> mat $@ vec = (`cdot` vec) <$> mat
+> mat $@ vec = (<.> vec) <$> mat
 
 More simply and generally,
 

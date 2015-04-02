@@ -107,8 +107,9 @@
 
 %format not = "\Varid{not}"
 %format :# = "\mathbin{:\!\!\#}"
-%format cdot = "(\cdot)"
-%format `cdot` = "\cdot"
+%% %format cdot = "(\cdot)"
+%% %format `cdot` = "\cdot"
+%format <.> = "\cdot"
 %format $@ = "\mathbin{\hat{\$}}"
 %format .@ = "\mathbin{\hat{\circ}}"
 
