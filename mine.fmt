@@ -157,3 +157,8 @@
 %format f6 = "f_6"
 %format f7 = "f_7"
 %format f8 = "f_8"
+
+%format s0 = "s_0"
+
+%format <- = "\leftarrowForArrow"
+%format -< = "\leftarrowTailForArrow "

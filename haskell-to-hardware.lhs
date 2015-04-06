@@ -88,9 +88,9 @@
 
 \title{From Haskell to Hardware via CCCs}
 \author{\href{http://conal.net}{Conal Elliott}}
-\institute{\href{http://tabula.com/}{Tabula}}
+% \institute{\href{http://tabula.com/}{Tabula}}
 % Abbreviate date/venue to fit in infolines space
-\date{August, 2014}
+\date{April, 2015}
 % \date{\emph{Draft of \today}}
 
 \setlength{\itemsep}{2ex}
@@ -113,7 +113,7 @@
 \framet{Tabula}{
 
 \begin{itemize}\parskip0.5ex
-\item Founded by Steve Teig about 10 years ago.
+\item Founded by Steve Teig about 11 years ago. Newly defunct. :(
 \item Post-FPGA reconfigurable hardware.
 \item Spacetime architecture:
   \begin{itemize}
@@ -208,8 +208,7 @@ endmodule
 
 \framet{Overall plan}{
 
-\begin{itemize}
-% \item Use GHC to convert full Haskell to small Core language.
+\begin{itemize}\parskip2ex
 \item Convert Haskell to Core (GHC).
 \item Monomorphize.
 \item Convert to abstract vocabulary.
@@ -218,6 +217,7 @@ endmodule
 \item Synthesize \& optimize with existing HDL machinery.
 \end{itemize}
 
+%if False
 \vspace{2ex}
 
 Initial simplifications:
@@ -225,6 +225,7 @@ Initial simplifications:
 \item Shape-typed data
 \item Combinational
 \end{itemize}
+%endif
 
 }
 
@@ -502,6 +503,8 @@ endmodule
 \end{center}
 }
 
+%if False
+
 \framet{|\ (a,b,c,d) -> a+b+c+d :: Int|}{
 \vspace{-1ex}
 \wfig{3.45in}{figures/sum-4a}
@@ -511,6 +514,8 @@ endmodule
 %\vspace{-2ex}
 \wfig{3.75in}{figures/sum-4b}
 }
+
+%endif
 
 \framet{Uniform pairs}{
 
@@ -564,23 +569,7 @@ And |Applicative|, |Monad|, |Traversable|.
 \wfig{3.2in}{figures/sum-v6-0}
 }
 
-\framet{Improved folding}{
-
-Bypass |mempty| when possible.
-
-> instance Foldable (Vec n) where
->   foldMap _ ZVec         = mempty
->   foldMap h as@(_ :< _)  = foldMapS h as
-
-> foldMapS :: Monoid m => (a -> m) -> Vec (S n) a -> m
-> foldMapS h (a :< as) =
->   case as of
->     ZVec      -> h a
->     (_ :< _)  -> h a <> foldMapS h as
-
-}
-
-\framet{|sum :: Vec N6 Int -> Int|}{
+\framet{With optimization}{
 \vspace{-1ex}
 \wfig{3.3in}{figures/sum-v6}
 }
@@ -655,44 +644,43 @@ Monomorphized \& simplified GHC Core:
 
 \framet{Dot products}{
 
-> dot ::  (Foldable g, Foldable f, Num (f a), Num a) =>
->         g (f a) -> a
-> dot = sum . product
-
-Typically, |g == Pair|.
-\pause % \vspace{2ex}
-
-Alternatively,
-
 > dot ::  (Traversable g, Foldable f, Applicative f, Num a) =>
 >         g (f a) -> a
 > dot = sum . fmap product . transpose
 
 where
 
-> transpose :: (Traversable t, Applicative f) => t (f a) -> f (t a)
+> transpose :: (Traversable g, Applicative f) => g (f a) -> f (g a)
+
+also called |sequenceA| from |Traversable|.
+
+For |dot|, typically |g == Pair|.
 
 }
 
 \framet{|transpose :: Pair (Tree N4 Int) -> Tree N4 (Pair Int)|}{
-\vspace{-2ex}
+\vspace{-3ex}
 \wfig{1.83in}{figures/transpose-pt4}
 }
 
 \framet{|transpose :: Tree N4 (Pair Int) -> Pair (Tree N4 Int)|}{
-\vspace{-2ex}
+\vspace{-3ex}
 \wfig{1.83in}{figures/transpose-t4p}
 }
 
+%if False
 \framet{|dot :: Pair (Tree N1 Int) -> Int|}{
 \vspace{-2ex}
 \wfig{4.1in}{figures/dotsp-pt1}
 }
+%endif
 
 \framet{|dot :: Pair (Tree N2 Int) -> Int|}{
 \vspace{-2ex}
 \wfig{3.25in}{figures/dotsp-pt2}
 }
+
+%if False
 
 \framet{|dot :: Pair (Tree N3 Int) -> Int|}{
 \vspace{-3ex}
@@ -713,6 +701,8 @@ where
 \vspace{-3ex}
 \wfig{3.3in}{figures/dotsp-t2t2}
 }
+
+%endif
 
 \framet{Linear transformations}{
 
@@ -799,16 +789,165 @@ More simply and generally,
 \wfig{2.7in}{figures/composeLin-t232}
 }
 
+\framet{Pair sort}{
+
+\vspace{2ex}
+
+> sortP :: Ord a => Unop (Pair a)
+> sortP (a :# b) = if a <= b then a :# b else b :# a
+
+\vspace{-6ex}
+
+\wfig{4.2in}{figures/bitonic-up-1}
+}
+
+\framet{Bitonic sort}{
+
+> bsort :: (IsNat n, Ord a) => Unop (RTree n a)
+> bsort = bsort' nat
+> 
+> bsort' :: Ord a => Nat n -> Unop (RTree n a)
+> bsort' Zero     = id
+> bsort' (Succ m) = \ (B ts) ->
+>   merge (Succ m) (B (secondP reverse (bsort' m <$> ts)))
+> 
+> merge :: Ord a => Nat n -> Unop (RTree n a)
+> merge n = butterfly' n sortP
+
+> butterfly' :: Ord a => Nat n -> Unop (Pair a) -> Unop (Tree n a)
+> butterfly' Zero      _ = id
+> butterfly' (Succ m)  f =
+>   inB (fmap (butterfly' m f) . (inTranspose.fmap) f)
+
+}
+
+\framet{Bitonic sort, depth 2}{
+\vspace{-3ex}
+\wfig{5in}{figures/bitonic-up-2}
+}
+
+\framet{Bitonic sort, depth 3}{
+\vspace{-5ex}
+\wfig{4.75in}{figures/bitonic-up-3}
+}
+
+\framet{Bitonic sort, depth 4}{
+\vspace{-1ex}
+\wfig{3.75in}{figures/bitonic-up-4}
+}
+
+\framet{Parallel scan, top-down trees, depth 4}{
+\vspace{-1ex}
+\wfig{3in}{figures/lsumsp-rt4}
+}
+
+\framet{Parallel scan, top-down trees, depth 5}{
+\vspace{-1.3ex}
+\wfig{2.9in}{figures/lsumsp-rt5}
+}
+
+\framet{Parallel scan -- bottom-up trees, depth 4}{
+\vspace{-1.3ex}
+\wfig{2.9in}{figures/lsumsp-lt4}
+}
+
+\framet{Polynomial evaluation}{
+
+\pause
+
+> powers :: (LScan f, Applicative f, Num a) => a -> f a
+> powers = fst . lproducts . pure
+
+> lproducts :: (LScan f, Num b) => f b -> f b :* b
+> lproducts = (fmap getProduct *** getProduct) . lscan . fmap Product
+
+> evalPoly ::  (LScan f, Applicative f, Foldable f, Num a) =>
+>              f a -> a -> a
+> evalPoly coeffs x = coeffs <.> powers x
+
+}
+
+\framet{|powers :: Int -> RTree N4 Int|}{
+\vspace{-1.3ex}
+\wfig{3.4in}{figures/powers-rt4}
+}
+
+\framet{|evalPoly :: RTree N4 Int -> Int -> Int|}{
+\vspace{-2ex}
+\wfig{4.7in}{figures/evalPoly-rt4}
+}
+
+\framet{Synchronous stream transformers}{
+
+> data Mealy a b = forall s. C s => Mealy ((a,s) -> (b,s)) s
+
+Semantics:
+
+> asStreamFun :: Mealy a b -> StreamArrow (->) a b
+> asStreamFun (Mealy f s0) = StreamArrow (go s0)
+>  where
+>    go s (Cons a as) = Cons b (go s' as) where (b,s') = f (a,s)
+
+Much more generally:
+
+> asArrow :: ArrowCircuit k => Mealy a b -> (a `k` b)
+> asArrow (Mealy f s0) = loop (arr f . second (delay s0))
+
+Semantic homomorphism for `Category`, `Arrow`, etc.
+
+}
+
+\framet{Fibonacci}{
+
+> fib :: Mealy () a
+> fib = Mealy (\ ((),(a,b)) -> (a,(b,a+b))) (0,1)
+
+> fib = loop (arr (\ ((),(a,b)) -> (a,(b,a+b))) . second (delay (0,1)))
+
+> fib = proc () -> do  rec (a,b) <- delay (0,1) -< (b,a+b)
+>                      returnA -< a
+
+> fib = proc () -> do  rec  a  <- delay 0  -< b
+>                           b  <- delay 1  -< a+b
+>                      returnA -< a
+
+Equivalent definitions.
+
+}
+
+\framet{Fibonacci}{
+\vspace{-2ex}
+\wfig{4.7in}{figures/fibS}
+}
+
+\framet{Shift register}{
+
+> shiftR :: Traversable t => t a :* a -> a :* t a
+> shiftR (as,a') = mapAccumR (flip (,)) a' as
+
+> shiftRS :: Traversable f => f a -> Mealy a a
+> shiftRS = Mealy (shiftR . swap)
+
+%% \vspace{-2ex}
+
+\wfig{4.7in}{figures/shiftR-iota-v3}
+}
+
+\framet{CRC}{
+\vspace{-2ex}
+\wfig{2.2in}{figures/crcSKpp-rt2-shallow-delay-with-depths}
+}
+
 \framet{Status and future}{
 
 \begin{itemize}\parskip1ex
 \item \href{https://github.com/conal/lambda-ccc/}{GitHub repository}
-\item Looking for collaboration and hiring recommendations
+% \item Looking for collaboration and hiring recommendations
 \item To do:
   \begin{itemize}\parskip1ex
   \item Improve performance
   \item More examples
-  \item Genuine sums for circuits
+% \item Genuine sums for circuits
   \item Memory and computation management
   \item More interpretations (CCCs)
   \end{itemize}

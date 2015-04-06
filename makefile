@@ -22,14 +22,9 @@ showpdf = open -a Skim.app
 clean:
 	rm $(TARG).{tex,pdf,aux,nav,snm,ptb}
 
-# web: $(TARG).web
+web: web-token
 
-# %.web: %.pdf
-# 	scp $< conal@conal.net:/home/conal/web/talks
-# 	touch $@
-
-# web: web-token
-# 
-# web-token: $(TARG).pdf $(TARG).lhs
-# 	scp $? conal@conal.net:/home/conal/web/talks
-# 	touch $@
+web-token: $(TARG).pdf
+#	scp $? conal@conal.net:/home/conal/web/talks
+	scp $? conal@conal.net:/home/conal/web/misc
+	touch $@
