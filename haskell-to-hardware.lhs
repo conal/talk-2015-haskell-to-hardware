@@ -88,7 +88,7 @@
 
 \title{From Haskell to Hardware via CCCs}
 \author{\href{http://conal.net}{Conal Elliott}}
-% \institute{\href{http://tabula.com/}{Tabula}}
+% \institute{Work done at \href{http://tabula.com/}{Tabula}}
 % Abbreviate date/venue to fit in infolines space
 \date{April, 2015}
 % \date{\emph{Draft of \today}}
@@ -373,7 +373,7 @@ Laws (dual to product):
 >   type Exp (~>) a b
 >   apply    :: (Prod (~>) (Exp (~>) a b) a) ~> b
 >   curry    :: ((Prod (~>) a b) ~> c) -> (a ~> (Exp (~>) b c))
->   uncurry  :: (a ~> (Exp (~>) b c)) -> (Prod (~>) a b) ~> c
+>   uncurry  :: (a ~> (Exp (~>) b c)) -> ((Prod (~>) a b) ~> c)
 
 }
 
@@ -427,6 +427,7 @@ Laws (dual to product):
 
 \framet{}{\begin{center} \huge{\emph{\textcolor{blue}{Examples}}} \end{center}}
 
+%if False
 \framet{|sumSquare :: Tree N2 Int -> Int|}{
 
 \begin{center}
@@ -442,6 +443,7 @@ Laws (dual to product):
 \wfig{3.2in}{figures/sumSquare-t2}
 
 }
+%endif
 
 \framet{|sumSquare :: Tree N2 Int -> Int|}{
 
@@ -479,6 +481,45 @@ exr) . exl) . id *** (id . exr) . id))))) &&& apply . (curry (repr . exr) . it
 \end{center}
 }
 
+\framet{|sumSquare :: Tree N2 Int -> Int|}{
+
+\begin{center}
+\begin{minipage}[c]{0.0\textwidth}
+{\tiny
+\begin{verbatim}
+module sumSquare-t2 (In_0, In_1, In_2, In_3, Out);
+  input [0:31] In_0;
+  input [0:31] In_1;
+  input [0:31] In_2;
+  input [0:31] In_3;
+  output [0:31] Out;
+  wire [0:31] w_mul_I1;
+  wire [0:31] w_mul_I2;
+  wire [0:31] w_mul_I3;
+  wire [0:31] w_mul_I4;
+  wire [0:31] w_add_I5;
+  wire [0:31] w_add_I6;
+  wire [0:31] w_add_I7;
+  assign w_mul_I1 = In_0 * In_0;
+  assign w_mul_I2 = In_1 * In_1;
+  assign w_mul_I3 = In_2 * In_2;
+  assign w_mul_I4 = In_3 * In_3;
+  assign w_add_I5 = w_mul_I1 + w_mul_I2;
+  assign w_add_I6 = w_mul_I3 + w_mul_I4;
+  assign w_add_I7 = w_add_I5 + w_add_I6;
+  assign Out = w_add_I7;
+endmodule
+\end{verbatim}
+}
+\end{minipage}
+\hspace{-7ex}
+\begin{minipage}[c]{0.5\textwidth}
+\wfig{2.5in}{figures/sumSquare-t2}
+\end{minipage}
+\end{center}
+}
+
+%if False
 \framet{|\ (a,b) -> a+b :: Int|}{\parskip3ex
 
 \begin{center}
@@ -502,6 +543,7 @@ endmodule
 \end{minipage}
 \end{center}
 }
+%endif
 
 %if False
 
@@ -821,45 +863,95 @@ More simply and generally,
 
 }
 
-\framet{Bitonic sort, depth 2}{
+\framet{Bitonic sort --- depth 2}{
 \vspace{-3ex}
 \wfig{5in}{figures/bitonic-up-2}
 }
 
-\framet{Bitonic sort, depth 3}{
+\framet{Bitonic sort --- depth 3}{
 \vspace{-5ex}
 \wfig{4.75in}{figures/bitonic-up-3}
 }
 
-\framet{Bitonic sort, depth 4}{
+\framet{Bitonic sort --- depth 4}{
 \vspace{-1ex}
 \wfig{3.75in}{figures/bitonic-up-4}
 }
 
-\framet{Parallel scan, top-down trees, depth 4}{
-\vspace{-1ex}
-\wfig{3in}{figures/lsumsp-rt4}
+\framet{Parallel scan} {
+
+> class Functor f => LScan f where
+>   lscan :: Monoid a => f a -> f a :* a
+
+Instances for functor combinators: |Const|, |Id|, |(:*)|, |(:+)|, |(:.)|.
+
+Specializations:
+
+> lsums :: (LScan f, Num a) => f a -> f a :* a
+> lsums = (fmap getSum *** getSum) . lscan . fmap Sum
+
+%if False
+
+> lproducts :: (LScan f, Num a) => f a -> f a :* a
+> lproducts = (fmap getProduct *** getProduct) . lscan . fmap Product
+
+%endif
+
+etc.
+
 }
 
-\framet{Parallel scan, top-down trees, depth 5}{
+\framet{Parallel scan --- top-down trees, depth 4}{
+\vspace{-2ex}
+\wfig{3.1in}{figures/lsumsp-rt4}
+}
+
+\framet{Parallel scan --- top-down trees, depth 5}{
 \vspace{-1.3ex}
 \wfig{2.9in}{figures/lsumsp-rt5}
 }
 
-\framet{Parallel scan -- bottom-up trees, depth 4}{
+\framet{Parallel scan --- bottom-up trees, depth 4}{
 \vspace{-1.3ex}
 \wfig{2.9in}{figures/lsumsp-lt4}
 }
 
-\framet{Polynomial evaluation}{
-
-\pause
+%if False
+\framet{Powers}{
 
 > powers :: (LScan f, Applicative f, Num a) => a -> f a
 > powers = fst . lproducts . pure
 
-> lproducts :: (LScan f, Num b) => f b -> f b :* b
-> lproducts = (fmap getProduct *** getProduct) . lscan . fmap Product
+\pause
+
+\vspace{8ex}
+
+|Tree N4 Int|:
+
+\vspace{-22ex}
+
+\wfig{3.2in}{figures/powers-rt4}
+}
+
+%else
+\framet{Powers}{
+
+> powers :: (LScan f, Applicative f, Num a) => a -> f a
+> powers = fst . lproducts . pure
+
+}
+
+\framet{|powers :: Int -> RTree N4 Int| (unoptimized)}{
+\vspace{-2ex}
+\wfig{2.8in}{figures/powers-rt4-no-opt}
+}
+\framet{|powers :: Int -> RTree N4 Int| (optimized)}{
+\wfig{3.2in}{figures/powers-rt4}
+}
+
+%endif
+
+\framet{Polynomial evaluation}{
 
 > evalPoly ::  (LScan f, Applicative f, Foldable f, Num a) =>
 >              f a -> a -> a
@@ -867,13 +959,8 @@ More simply and generally,
 
 }
 
-\framet{|powers :: Int -> RTree N4 Int|}{
-\vspace{-1.3ex}
-\wfig{3.4in}{figures/powers-rt4}
-}
-
 \framet{|evalPoly :: RTree N4 Int -> Int -> Int|}{
-\vspace{-2ex}
+\vspace{0ex}
 \wfig{4.7in}{figures/evalPoly-rt4}
 }
 
@@ -899,7 +986,10 @@ Semantic homomorphism for `Category`, `Arrow`, etc.
 
 \framet{Fibonacci}{
 
-> fib :: Mealy () a
+> fib :: Num a => Mealy () a
+
+Equivalent definitions:
+
 > fib = Mealy (\ ((),(a,b)) -> (a,(b,a+b))) (0,1)
 
 > fib = loop (arr (\ ((),(a,b)) -> (a,(b,a+b))) . second (delay (0,1)))
@@ -910,8 +1000,6 @@ Semantic homomorphism for `Category`, `Arrow`, etc.
 > fib = proc () -> do  rec  a  <- delay 0  -< b
 >                           b  <- delay 1  -< a+b
 >                      returnA -< a
-
-Equivalent definitions.
 
 }
 
