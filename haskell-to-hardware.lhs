@@ -112,20 +112,16 @@
 
 \framet{Tabula}{
 
-\begin{itemize}\parskip0.5ex
+\begin{itemize}\parskip0.75ex
 \item Founded by Steve Teig about 11 years ago. Newly defunct. :(
-\item Post-FPGA reconfigurable hardware.
-\item Spacetime architecture:
+\item Post-FPGA hardware architecture, \emph{Spacetime}:
   \begin{itemize}
-  \item 3D for shorter paths
-  \item Implemented by rapid reconfiguration (2GHz)
-  \item Minkowski spacetime (special relativity)
-  \item Spacetime layout with causality constraints
-  \item Very high sustained throughput
+  \item 3D for shorter paths.
+  \item Implemented by rapid reconfiguration (2GHz).
+  \item Dense \emph{active} logic.
   \end{itemize}
-\item Tremendous flexibility for moving computations in space \& time
-\item Program in a non-sequential language: Haskell
-\item Compiler \href{https://github.com/conal/lambda-ccc/}{developed openly} and shared freely
+\item Program in a non-sequential language: Haskell.
+\item Compiler \href{https://github.com/conal/lambda-ccc/}{developed openly} and shared freely.
 \end{itemize}
 
 }
@@ -783,9 +779,6 @@ For |dot|, typically |g == Pair|.
 \vspace{-3ex}
 \wfig{4in}{figures/applyLin-v23}
 }
-
-
-% main = go "applyLin-v42" (uncurry (($@) :: Matrix N4 N2 Int -> Vec N4 Int -> Vec N2 Int))
 
 \framet{|($@) :: Matrix N4 N2 Int -> Vec N4 Int -> Vec N2 Int|}{
 \vspace{-0ex}
