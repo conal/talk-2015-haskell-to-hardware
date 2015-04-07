@@ -158,7 +158,6 @@
 
 \framet{|sumSquare :: RTree N2 Int -> Int|}{
 
-\begin{center}
 \begin{minipage}[c]{0.0\textwidth}
 {\tiny
 \begin{verbatim}
@@ -187,11 +186,10 @@ endmodule
 \end{verbatim}
 }
 \end{minipage}
-\hspace{-14ex}
+\hspace{-10ex}
 \begin{minipage}[c]{0.5\textwidth}
 \wfig{3in}{figures/sumSquare-t2}
 \end{minipage}
-\end{center}
 }
 
 \framet{|sumSquare :: RTree N3 Int -> Int|}{
@@ -483,7 +481,6 @@ exr) . exl) . id *** (id . exr) . id))))) &&& apply . (curry (repr . exr) . it
 
 \framet{|sumSquare :: RTree N2 Int -> Int|}{
 
-\begin{center}
 \begin{minipage}[c]{0.0\textwidth}
 {\tiny
 \begin{verbatim}
@@ -512,11 +509,10 @@ endmodule
 \end{verbatim}
 }
 \end{minipage}
-\hspace{-14ex}
+\hspace{-10ex}
 \begin{minipage}[c]{0.5\textwidth}
 \wfig{3in}{figures/sumSquare-t2}
 \end{minipage}
-\end{center}
 }
 
 %if False
