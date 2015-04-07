@@ -4,7 +4,7 @@ PDFs = figures/applyLin-t21.pdf figures/applyLin-t22.pdf figures/applyLin-v23.pd
 
 # figs: $(PDFs)
 
-figures/%.pdf: dots/%.dot makefile
+figures/%.pdf: dots/%.dot figures makefile
 	dot -Tpdf $< -o $@
 
 .PRECIOUS: %.tex %.pdf %.web
@@ -12,6 +12,9 @@ figures/%.pdf: dots/%.dot makefile
 all: $(TARG).pdf
 
 see: $(TARG).see
+
+figures:
+	mkdir figures
 
 $(TARG).pdf: $(TARG).tex makefile $(PDFs)
 	pdflatex $(TARG).tex
