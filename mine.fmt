@@ -166,5 +166,10 @@
 
 %format s0 = "s_0"
 
+%% %format b0 = "b_0"
+%% %format b0' = "{b'}_0"
+
+% The ' gets lost
+
 %format <- = "\leftarrowForArrow"
 %format -< = "\leftarrowTailForArrow "

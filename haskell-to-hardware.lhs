@@ -1049,12 +1049,33 @@ Equivalent definitions:
 \vspace{-2ex}
 \wfig{2.2in}{figures/crcSKpp-rt2-shallow-delay-with-depths}
 }
+%else
+\framet{Cyclic redundancy check}{
+
+> crc ::  (Applicative poly, Traversable poly) =>
+>         poly Bool -> Mealy Bool (poly Bool)
+> crc poly = scanl step (pure False)
+>  where
+>    step seg b0 = if b0' then liftA2 xor poly seg' else seg'
+>     where
+>       (b0',seg') = shiftR (seg,b0)
+
+}
+
+\framet{|crc polyD :: Mealy Bool (RTree N2 Bool)| --- unoptimized}{
+\wfig{4.5in}{figures/crcSKf-rt2-no-opt}
+}
+
+\framet{|crc polyD :: Mealy Bool (RTree N2 Bool)| --- optimized}{
+\wfig{4.5in}{figures/crcSKf-rt2}
+}
+
 %endif
 
 \framet{Status and future}{
 
 \begin{itemize}\parskip1ex
-\item Tabula has closed, but I'd like the project to continue.
+\item Although Tabula has closed, I'd like the project to continue.
 \item Open source \href{https://github.com/conal/lambda-ccc/}{on GitHub}
 \item To do:
   \begin{itemize}\parskip1ex
