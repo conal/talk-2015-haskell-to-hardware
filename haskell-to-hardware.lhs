@@ -908,6 +908,9 @@ Specializations:
 
 > lsums :: (LScan f, Num a) => f a -> f a :* a
 > lsums = (fmap getSum *** getSum) . lscan . fmap Sum
+>
+> lsums' :: (LScan f, Traversable f, Num b) => Unop (f b)
+> lsums' = snd . shiftR . lsums
 
 %if False
 
