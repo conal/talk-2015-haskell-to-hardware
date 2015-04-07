@@ -5,6 +5,7 @@
 %format Unit = ()
 %format :* = " \times "
 %format :+ = " + "
+%format :. = " \circ "
 
 %format <> = " \mathbin{\oplus} "
 %format `mappend` = " \mathbin{\oplus} "
@@ -132,10 +133,15 @@
 %format N8 = 8
 
 %format VecTy = "\Varid{Vec}"
-%format TreeTy = "\Varid{Tree}"
+%% %format TreeTy = "\Varid{Tree}"
+%format RTreeTy = "\Varid{RTree}"
+%format LTreeTy = "\Varid{\hspace{0.25ex}LTree}"
+
+%% hspace to make "RTree" and "LTree" right-align
 
 %format Vec (n) = VecTy"_{"n"}"
-%format Tree (n) = TreeTy"_{"n"}"
+%format RTree (n) = RTreeTy"_{"n"}"
+%format LTree (n) = LTreeTy"_{"n"}"
 
 %format Z = 0
 %format S n = 1 + n

@@ -1,0 +1,42 @@
+digraph transpose_t4p {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  ranksep="4.0";
+  c0 [label="{In|{<Out0>|<Out1>|<Out2>|<Out3>|<Out4>|<Out5>|<Out6>|<Out7>|<Out8>|<Out9>|<Out10>|<Out11>|<Out12>|<Out13>|<Out14>|<Out15>|<Out16>|<Out17>|<Out18>|<Out19>|<Out20>|<Out21>|<Out22>|<Out23>|<Out24>|<Out25>|<Out26>|<Out27>|<Out28>|<Out29>|<Out30>|<Out31>}}"];
+  c1 [label="{{<In0>|<In1>|<In2>|<In3>|<In4>|<In5>|<In6>|<In7>|<In8>|<In9>|<In10>|<In11>|<In12>|<In13>|<In14>|<In15>|<In16>|<In17>|<In18>|<In19>|<In20>|<In21>|<In22>|<In23>|<In24>|<In25>|<In26>|<In27>|<In28>|<In29>|<In30>|<In31>}|Out}"];
+  c0:Out0 -> c1:In0 ;
+  c0:Out2 -> c1:In1 ;
+  c0:Out4 -> c1:In2 ;
+  c0:Out6 -> c1:In3 ;
+  c0:Out8 -> c1:In4 ;
+  c0:Out10 -> c1:In5 ;
+  c0:Out12 -> c1:In6 ;
+  c0:Out14 -> c1:In7 ;
+  c0:Out16 -> c1:In8 ;
+  c0:Out18 -> c1:In9 ;
+  c0:Out20 -> c1:In10 ;
+  c0:Out22 -> c1:In11 ;
+  c0:Out24 -> c1:In12 ;
+  c0:Out26 -> c1:In13 ;
+  c0:Out28 -> c1:In14 ;
+  c0:Out30 -> c1:In15 ;
+  c0:Out1 -> c1:In16 ;
+  c0:Out3 -> c1:In17 ;
+  c0:Out5 -> c1:In18 ;
+  c0:Out7 -> c1:In19 ;
+  c0:Out9 -> c1:In20 ;
+  c0:Out11 -> c1:In21 ;
+  c0:Out13 -> c1:In22 ;
+  c0:Out15 -> c1:In23 ;
+  c0:Out17 -> c1:In24 ;
+  c0:Out19 -> c1:In25 ;
+  c0:Out21 -> c1:In26 ;
+  c0:Out23 -> c1:In27 ;
+  c0:Out25 -> c1:In28 ;
+  c0:Out27 -> c1:In29 ;
+  c0:Out29 -> c1:In30 ;
+  c0:Out31 -> c1:In31 ;
+}
+
+// No components.

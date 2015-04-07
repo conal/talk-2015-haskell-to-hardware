@@ -140,23 +140,23 @@
 
 }
 
-\framet{|sumSquare :: Tree N2 Int -> Int|}{
+\framet{|sumSquare :: RTree N2 Int -> Int|}{
 
 \begin{center}
-\begin{minipage}[c]{0.35\textwidth}\ \end{minipage}
-\begin{minipage}[c]{0.4\textwidth}
+\begin{minipage}[c]{0.3\textwidth}\ \end{minipage}
+\begin{minipage}[c]{0.5\textwidth}
 
 > sumSquare = sum . fmap square
 
 \end{minipage}
 \end{center}
 
-\vspace{-13ex}
-\wfig{3.2in}{figures/sumSquare-t2}
+\vspace{-10ex}
+\wfig{5in}{figures/sumSquare-t2}
 
 }
 
-\framet{|sumSquare :: Tree N2 Int -> Int|}{
+\framet{|sumSquare :: RTree N2 Int -> Int|}{
 
 \begin{center}
 \begin{minipage}[c]{0.0\textwidth}
@@ -187,21 +187,21 @@ endmodule
 \end{verbatim}
 }
 \end{minipage}
-\hspace{-7ex}
+\hspace{-14ex}
 \begin{minipage}[c]{0.5\textwidth}
-\wfig{2.5in}{figures/sumSquare-t2}
+\wfig{3in}{figures/sumSquare-t2}
 \end{minipage}
 \end{center}
 }
 
-\framet{|sumSquare :: Tree N3 Int -> Int|}{
-\vspace{0ex}
-\wfig{3in}{figures/sumSquare-t3}
+\framet{|sumSquare :: RTree N3 Int -> Int|}{
+\vspace{-2ex}
+\wfig{4.5in}{figures/sumSquare-t3}
 }
 
-\framet{|sumSquare :: Tree N4 Int -> Int|}{
-\vspace{0ex}
-\wfig{2.9in}{figures/sumSquare-t4}
+\framet{|sumSquare :: RTree N4 Int -> Int|}{
+\vspace{-1ex}
+\wfig{3in}{figures/sumSquare-t4}
 }
 
 \framet{}{\begin{center} \huge{\emph{\textcolor{blue}{How it works}}} \end{center}}
@@ -428,7 +428,7 @@ Laws (dual to product):
 \framet{}{\begin{center} \huge{\emph{\textcolor{blue}{Examples}}} \end{center}}
 
 %if False
-\framet{|sumSquare :: Tree N2 Int -> Int|}{
+\framet{|sumSquare :: RTree N2 Int -> Int|}{
 
 \begin{center}
 \begin{minipage}[c]{0.35\textwidth}\ \end{minipage}
@@ -445,7 +445,7 @@ Laws (dual to product):
 }
 %endif
 
-\framet{|sumSquare :: Tree N2 Int -> Int|}{
+\framet{|sumSquare :: RTree N2 Int -> Int|}{
 
 \begin{center}
 {\tiny
@@ -481,7 +481,7 @@ exr) . exl) . id *** (id . exr) . id))))) &&& apply . (curry (repr . exr) . it
 \end{center}
 }
 
-\framet{|sumSquare :: Tree N2 Int -> Int|}{
+\framet{|sumSquare :: RTree N2 Int -> Int|}{
 
 \begin{center}
 \begin{minipage}[c]{0.0\textwidth}
@@ -512,9 +512,9 @@ endmodule
 \end{verbatim}
 }
 \end{minipage}
-\hspace{-7ex}
+\hspace{-14ex}
 \begin{minipage}[c]{0.5\textwidth}
-\wfig{2.5in}{figures/sumSquare-t2}
+\wfig{3in}{figures/sumSquare-t2}
 \end{minipage}
 \end{center}
 }
@@ -572,12 +572,12 @@ endmodule
 }
 
 \framet{|sum :: Pair Int -> Int|}{
-\wfig{3.5in}{figures/sum-p}
+\wfig{4in}{figures/sum-p}
 }
 
 \framet{|sumSquare :: Pair Int -> Int|}{
 %\vspace{-2ex}
-\wfig{3.7in}{figures/sumSquare-p}
+\wfig{4in}{figures/sumSquare-p}
 }
 
 \framet{Length-typed vectors}{
@@ -602,34 +602,34 @@ And |Applicative|, |Monad|, |Traversable|.
 }
 
 \framet{|fmap not :: Vec N6 Bool -> Vec N6 Bool|}{
-\vspace{-1.8ex}
+\vspace{-4.2ex}
 \wfig{3in}{figures/map-v6}
 }
 
 \framet{|sum :: Vec N6 Int -> Int|}{
 \vspace{-1ex}
-\wfig{3.2in}{figures/sum-v6-0}
+\wfig{4.8in}{figures/sum-v6-0}
 }
 
-\framet{With optimization}{
+\framet{|sum :: Vec N6 Int -> Int| --- optimized}{
 \vspace{-1ex}
-\wfig{3.3in}{figures/sum-v6}
+\wfig{4.8in}{figures/sum-v6}
 }
 
-\framet{Depth-typed trees}{
+\framet{Depth-typed trees (top-down)}{
 
-> data TreeTy :: Nat -> * -> * SPACE where
->   L  :: a -> Tree Z a
->   B  :: Pair (Tree n a) -> Tree (S n) a
+> data RTreeTy :: Nat -> * -> * SPACE where
+>   L  :: a -> RTree Z a
+>   B  :: Pair (RTree n a) -> RTree (S n) a
 
 \pause
 \vspace{-5ex}
 
-> instance Functor (Tree n) where
+> instance Functor (RTree n) where
 >   fmap f (L a   ) = L (f a)
 >   fmap f (B ts  ) = B ((fmap.fmap) f ts)
 >
-> instance Foldable (Tree n) where
+> instance Foldable (RTree n) where
 >   foldMap f (L a   ) = f a
 >   foldMap f (B ts  ) = (foldMap.foldMap) f ts
 
@@ -639,34 +639,57 @@ Easily generalize beyond |Pair|.
 
 }
 
-\framet{|fmap not :: Tree N3 Bool -> Tree N3 Bool|}{
-\vspace{-1ex}
-\wfig{2.83in}{figures/map-t3}
+\framet{Depth-typed trees (bottom-up)}{
+
+> data LTreeTy :: Nat -> * -> * SPACE where
+>   L  :: a -> LTree Z a
+>   B  :: LTree n (Pair a) -> LTree (S n) a
+
+% \pause
+\vspace{-5ex}
+
+> instance Functor (LTree n) where
+>   fmap f (L a   ) = L (f a)
+>   fmap f (B ts  ) = B ((fmap.fmap) f ts)
+>
+> instance Foldable (LTree n) where
+>   foldMap f (L a   ) = f a
+>   foldMap f (B ts  ) = (foldMap.foldMap) f ts
+
+And |Applicative|, |Monad|, |Traversable|.
+
+Easily generalize beyond |Pair|.
+
 }
 
-\framet{|sum :: Tree N4 Int -> Int|}{
-\vspace{-1ex}
-\wfig{3.1in}{figures/sum-t4}
+\framet{|fmap not :: RTree N3 Bool -> RTree N3 Bool|}{
+\vspace{-3.5ex}
+\wfig{2.3in}{figures/map-t3}
 }
 
-\framet{|sum :: Tree N3 Int -> Int|}{
+\framet{|sum :: RTree N4 Int -> Int|}{
+\vspace{-2ex}
+\wfig{3.6in}{figures/sum-t4}
+}
+
+\framet{|sum :: RTree N3 Int -> Int|}{
 
 \vspace{-1ex}
 Monomorphized \& simplified GHC Core:
 
 {\tiny
 
-> let  f0 :: Tree N0 Int -> Sum Int
+> let  f0 :: RTree N0 Int -> Sum Int
 >      f0 = \ ds ->
 >        abst ZfRepSum (repr ZfRepTree0 ds)
->      f1 :: Tree N1 Int -> Sum Int
+>      f1 :: RTree N1 Int -> Sum Int
 >      f1 = \ ds ->
 >        case repr ZfRepPair (repr ZfRepTree ds) of
 >          (,) a b ->
 >            abst ZfRepSum
 >                 (ZfNumInt_ZcP  (repr ZfRepSum (f0 a))
 >                                (repr ZfRepSum (f0 b)))
->      f2 :: Tree N2 Int -> Sum Int
+>      f2 :: RTree N2 Int -> Sum Int
 >      f2 = \ ds ->
 >        case repr ZfRepPair (repr ZfRepTree ds) of
 >          (,) a b ->
@@ -700,46 +723,46 @@ For |dot|, typically |g == Pair|.
 
 }
 
-\framet{|transpose :: Pair (Tree N4 Int) -> Tree N4 (Pair Int)|}{
+\framet{|transpose :: Pair (RTree N4 Int) -> RTree N4 (Pair Int)|}{
 \vspace{-3ex}
 \wfig{1.83in}{figures/transpose-pt4}
 }
 
-\framet{|transpose :: Tree N4 (Pair Int) -> Pair (Tree N4 Int)|}{
+\framet{|transpose :: RTree N4 (Pair Int) -> Pair (RTree N4 Int)|}{
 \vspace{-3ex}
 \wfig{1.83in}{figures/transpose-t4p}
 }
 
 %if False
-\framet{|dot :: Pair (Tree N1 Int) -> Int|}{
+\framet{|dot :: Pair (RTree N1 Int) -> Int|}{
 \vspace{-2ex}
 \wfig{4.1in}{figures/dotsp-pt1}
 }
 %endif
 
-\framet{|dot :: Pair (Tree N2 Int) -> Int|}{
+\framet{|dot :: Pair (RTree N2 Int) -> Int|}{
 \vspace{-2ex}
-\wfig{3.25in}{figures/dotsp-pt2}
+\wfig{4.5in}{figures/dotsp-pt2}
 }
 
 %if False
 
-\framet{|dot :: Pair (Tree N3 Int) -> Int|}{
+\framet{|dot :: Pair (RTree N3 Int) -> Int|}{
 \vspace{-3ex}
 \wfig{3.25in}{figures/dotsp-pt3}
 }
 
-\framet{|dot :: Pair (Tree N4 Int) -> Int|}{
+\framet{|dot :: Pair (RTree N4 Int) -> Int|}{
 \vspace{-2ex}
 \wfig{3in}{figures/dotsp-pt4}
 }
 
-\framet{|dot :: Vec N3 (Tree N2 Int) -> Int|}{
+\framet{|dot :: Vec N3 (RTree N2 Int) -> Int|}{
 \vspace{-3ex}
 \wfig{3.3in}{figures/dotsp-v3t2}
 }
 
-\framet{|dot :: Tree N2 (Tree N2 Int) -> Int|}{
+\framet{|dot :: RTree N2 (RTree N2 Int) -> Int|}{
 \vspace{-3ex}
 \wfig{3.3in}{figures/dotsp-t2t2}
 }
@@ -761,16 +784,16 @@ For |dot|, typically |g == Pair|.
 }
 
 \framet{|($@) :: Matrix N2 N3 Int -> Vec N2 Int -> Vec N3 Int|}{
-\vspace{-1ex}
-\wfig{3in}{figures/applyLin-v23}
+\vspace{-3ex}
+\wfig{4in}{figures/applyLin-v23}
 }
 
 
 % main = go "applyLin-v42" (uncurry (($@) :: Matrix N4 N2 Int -> Vec N4 Int -> Vec N2 Int))
 
 \framet{|($@) :: Matrix N4 N2 Int -> Vec N4 Int -> Vec N2 Int|}{
-\vspace{-1ex}
-\wfig{2.95in}{figures/applyLin-v42}
+\vspace{-0ex}
+\wfig{4.5in}{figures/applyLin-v42}
 }
 
 \framet{|Generalizing linear transformations|}{
@@ -786,16 +809,16 @@ More simply and generally,
 
 For instance,
 
-> type MatrixT m n a = Tree n (Tree m a)
+> type MatrixT m n a = RTree n (RTree m a)
 
 }
 
-\framet{|($@) :: MatrixT N2 N1 Int -> Tree N2 Int -> Tree N1 Int|}{
+\framet{|($@) :: MatrixT N2 N1 Int -> RTree N2 Int -> RTree N1 Int|}{
 \vspace{-1ex}
-\wfig{2.75in}{figures/applyLin-t21}
+\wfig{4.5in}{figures/applyLin-t21}
 }
 
-\framet{|($@) :: MatrixT N2 N2 Int -> Tree N2 Int -> Tree N2 Int|}{
+\framet{|($@) :: MatrixT N2 N2 Int -> RTree N2 Int -> RTree N2 Int|}{
 \vspace{-1ex}
 \wfig{2.75in}{figures/applyLin-t22}
 }
@@ -818,17 +841,17 @@ More simply and generally,
 
 \framet{|(.@) :: Matrix N3 N4 Int -> Matrix N2 N3 Int -> Matrix N2 N4 Int|}{
 \vspace{-1ex}
-\wfig{2.6in}{figures/composeLin-v234}
+\wfig{2.3in}{figures/composeLin-v234}
 }
 
 \framet{|(.@) :: MatrixT N2 N2 Int -> MatrixT N2 N2 Int -> MatrixT N2 N2 Int|}{
 \vspace{-1ex}
-\wfig{2.6in}{figures/composeLin-t222}
+\wfig{1.45in}{figures/composeLin-t222}
 }
 
 \framet{|(.@) :: MatrixT N3 N2 Int -> MatrixT N2 N3 Int -> MatrixT N2 N2 Int|}{
 \vspace{-1ex}
-\wfig{2.7in}{figures/composeLin-t232}
+\wfig{1.25in}{figures/composeLin-t232}
 }
 
 \framet{Pair sort}{
@@ -856,7 +879,7 @@ More simply and generally,
 > merge :: Ord a => Nat n -> Unop (RTree n a)
 > merge n = butterfly' n sortP
 
-> butterfly' :: Ord a => Nat n -> Unop (Pair a) -> Unop (Tree n a)
+> butterfly' :: Ord a => Nat n -> Unop (Pair a) -> Unop (RTree n a)
 > butterfly' Zero      _ = id
 > butterfly' (Succ m)  f =
 >   inB (fmap (butterfly' m f) . (inTranspose.fmap) f)
@@ -865,7 +888,7 @@ More simply and generally,
 
 \framet{Bitonic sort --- depth 2}{
 \vspace{-3ex}
-\wfig{5in}{figures/bitonic-up-2}
+\wfig{4.75in}{figures/bitonic-up-2}
 }
 
 \framet{Bitonic sort --- depth 3}{
@@ -901,19 +924,19 @@ etc.
 
 }
 
-\framet{Parallel scan --- top-down trees, depth 4}{
+\framet{|lsums' :: Unop (RTree N4 Int)|}{
 \vspace{-2ex}
-\wfig{3.1in}{figures/lsumsp-rt4}
+\wfig{3.3in}{figures/lsumsp-rt4}
 }
 
-\framet{Parallel scan --- top-down trees, depth 5}{
-\vspace{-1.3ex}
-\wfig{2.9in}{figures/lsumsp-rt5}
+\framet{|lsums' :: Unop (RTree N5 Int)|}{
+\vspace{-4ex}
+\wfig{2.6in}{figures/lsumsp-rt5}
 }
 
-\framet{Parallel scan --- bottom-up trees, depth 4}{
+\framet{|lsums' :: Unop (LTree N4 Int)|}{
 \vspace{-1.3ex}
-\wfig{2.9in}{figures/lsumsp-lt4}
+\wfig{4.5in}{figures/lsumsp-lt4}
 }
 
 %if False
@@ -926,7 +949,7 @@ etc.
 
 \vspace{8ex}
 
-|Tree N4 Int|:
+|RTree N4 Int|:
 
 \vspace{-22ex}
 
@@ -941,12 +964,12 @@ etc.
 
 }
 
-\framet{|powers :: Int -> RTree N4 Int| (unoptimized)}{
+\framet{|powers :: Int -> RTree N4 Int| --- unoptimized}{
 \vspace{-2ex}
-\wfig{2.8in}{figures/powers-rt4-no-opt}
+\wfig{4in}{figures/powers-rt4-no-opt}
 }
-\framet{|powers :: Int -> RTree N4 Int| (optimized)}{
-\wfig{3.2in}{figures/powers-rt4}
+\framet{|powers :: Int -> RTree N4 Int| --- optimized}{
+\wfig{4.5in}{figures/powers-rt4}
 }
 
 %endif
@@ -1021,19 +1044,21 @@ Equivalent definitions:
 \wfig{4.7in}{figures/shiftR-iota-v3}
 }
 
+%if False
 \framet{CRC}{
 \vspace{-2ex}
 \wfig{2.2in}{figures/crcSKpp-rt2-shallow-delay-with-depths}
 }
+%endif
 
 \framet{Status and future}{
 
 \begin{itemize}\parskip1ex
-\item \href{https://github.com/conal/lambda-ccc/}{GitHub repository}
-% \item Looking for collaboration and hiring recommendations
+\item Tabula has closed, but I'd like the project to continue.
+\item Open source \href{https://github.com/conal/lambda-ccc/}{on GitHub}
 \item To do:
   \begin{itemize}\parskip1ex
-  \item Improve performance
+  \item Compiler performance
   \item More examples
 % \item Genuine sums for circuits
   \item Memory and computation management

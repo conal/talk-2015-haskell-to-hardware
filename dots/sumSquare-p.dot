@@ -1,0 +1,19 @@
+digraph sumSquare_p {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  c0 [label="{In|{<Out0>|<Out1>}}"];
+  c1 [label="{{<In0>}|Out}"];
+  c2 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c3 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c4 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c2:Out0 -> c1:In0 [label="32",fontsize=10];
+  c3:Out0 -> c2:In0 [label="32",fontsize=10];
+  c4:Out0 -> c2:In1 [label="32",fontsize=10];
+  c0:Out0 -> c3:In0 [label="32",fontsize=10];
+  c0:Out0 -> c3:In1 [label="32",fontsize=10];
+  c0:Out1 -> c4:In0 [label="32",fontsize=10];
+  c0:Out1 -> c4:In1 [label="32",fontsize=10];
+}
+
+// Components: 1 add, 2 mul, 3 total. Depth: 2.

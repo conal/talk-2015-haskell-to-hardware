@@ -1,0 +1,14 @@
+digraph sum_p {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  nslimit=20;
+  c0 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c1 [label="{In|{<Out0>|<Out1>}}"];
+  c2 [label="{{<In0>}|Out}"];
+  c1:Out0 -> c0:In0 [label=32,fontsize=10];
+  c1:Out1 -> c0:In1 [label=32,fontsize=10];
+  c0:Out0 -> c2:In0 [label=32,fontsize=10];
+}
+
+// Components: 1 +. Max depth: 1.

@@ -1,0 +1,33 @@
+digraph map_t3 {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  c0 [label="{In|{<Out0>|<Out1>|<Out2>|<Out3>|<Out4>|<Out5>|<Out6>|<Out7>}}"];
+  c2 [label="{{<In0>|<In1>|<In2>|<In3>|<In4>|<In5>|<In6>|<In7>}|Out}"];
+  c4 [label="{{<In0>}|not|{<Out0>}}"];
+  c5 [label="{{<In0>}|not|{<Out0>}}"];
+  c6 [label="{{<In0>}|not|{<Out0>}}"];
+  c7 [label="{{<In0>}|not|{<Out0>}}"];
+  c8 [label="{{<In0>}|not|{<Out0>}}"];
+  c9 [label="{{<In0>}|not|{<Out0>}}"];
+  c10 [label="{{<In0>}|not|{<Out0>}}"];
+  c11 [label="{{<In0>}|not|{<Out0>}}"];
+  c4:Out0 -> c2:In0 [];
+  c5:Out0 -> c2:In1 [];
+  c6:Out0 -> c2:In2 [];
+  c7:Out0 -> c2:In3 [];
+  c8:Out0 -> c2:In4 [];
+  c9:Out0 -> c2:In5 [];
+  c10:Out0 -> c2:In6 [];
+  c11:Out0 -> c2:In7 [];
+  c0:Out0 -> c4:In0 [];
+  c0:Out1 -> c5:In0 [];
+  c0:Out2 -> c6:In0 [];
+  c0:Out3 -> c7:In0 [];
+  c0:Out4 -> c8:In0 [];
+  c0:Out5 -> c9:In0 [];
+  c0:Out6 -> c10:In0 [];
+  c0:Out7 -> c11:In0 [];
+}
+
+// Components: 8 not. Depth: 1.

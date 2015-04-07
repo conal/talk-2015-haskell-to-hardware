@@ -1,0 +1,40 @@
+digraph applyLin_v23 {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  ranksep=1;
+  c2 [label="{In|{<Out0>|<Out1>|<Out2>|<Out3>|<Out4>|<Out5>|<Out6>|<Out7>}}"];
+  c3 [label="{{<In0>|<In1>|<In2>}|Out}"];
+  c4 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c5 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c6 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c7 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c8 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c9 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c10 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c11 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c12 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c4:Out0 -> c3:In0 [label="32",fontsize=10];
+  c5:Out0 -> c3:In1 [label="32",fontsize=10];
+  c6:Out0 -> c3:In2 [label="32",fontsize=10];
+  c7:Out0 -> c4:In0 [label="32",fontsize=10];
+  c8:Out0 -> c4:In1 [label="32",fontsize=10];
+  c9:Out0 -> c5:In0 [label="32",fontsize=10];
+  c10:Out0 -> c5:In1 [label="32",fontsize=10];
+  c11:Out0 -> c6:In0 [label="32",fontsize=10];
+  c12:Out0 -> c6:In1 [label="32",fontsize=10];
+  c2:Out0 -> c7:In0 [label="32",fontsize=10];
+  c2:Out6 -> c7:In1 [label="32",fontsize=10];
+  c2:Out1 -> c8:In0 [label="32",fontsize=10];
+  c2:Out7 -> c8:In1 [label="32",fontsize=10];
+  c2:Out2 -> c9:In0 [label="32",fontsize=10];
+  c2:Out6 -> c9:In1 [label="32",fontsize=10];
+  c2:Out3 -> c10:In0 [label="32",fontsize=10];
+  c2:Out7 -> c10:In1 [label="32",fontsize=10];
+  c2:Out4 -> c11:In0 [label="32",fontsize=10];
+  c2:Out6 -> c11:In1 [label="32",fontsize=10];
+  c2:Out5 -> c12:In0 [label="32",fontsize=10];
+  c2:Out7 -> c12:In1 [label="32",fontsize=10];
+}
+
+// Components: 3 add, 6 mul, 9 total. Depth: 2.

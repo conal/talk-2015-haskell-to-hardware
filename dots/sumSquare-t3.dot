@@ -1,0 +1,56 @@
+digraph sumSquare_t3 {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  ranksep=1;
+  c0 [label="{In|{<Out0>|<Out1>|<Out2>|<Out3>|<Out4>|<Out5>|<Out6>|<Out7>}}"];
+  c1 [label="{{<In0>}|Out}"];
+  c2 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c3 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c4 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c5 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c6 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c7 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c8 [label="{{<In0>|<In1>}|+|{<Out0>}}"];
+  c9 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c10 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c11 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c12 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c13 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c14 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c15 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c16 [label="{{<In0>|<In1>}|×|{<Out0>}}"];
+  c7:Out0 -> c1:In0 [label="32",fontsize=10];
+  c9:Out0 -> c2:In0 [label="32",fontsize=10];
+  c10:Out0 -> c2:In1 [label="32",fontsize=10];
+  c11:Out0 -> c3:In0 [label="32",fontsize=10];
+  c12:Out0 -> c3:In1 [label="32",fontsize=10];
+  c13:Out0 -> c4:In0 [label="32",fontsize=10];
+  c14:Out0 -> c4:In1 [label="32",fontsize=10];
+  c15:Out0 -> c5:In0 [label="32",fontsize=10];
+  c16:Out0 -> c5:In1 [label="32",fontsize=10];
+  c2:Out0 -> c6:In0 [label="32",fontsize=10];
+  c3:Out0 -> c6:In1 [label="32",fontsize=10];
+  c6:Out0 -> c7:In0 [label="32",fontsize=10];
+  c8:Out0 -> c7:In1 [label="32",fontsize=10];
+  c4:Out0 -> c8:In0 [label="32",fontsize=10];
+  c5:Out0 -> c8:In1 [label="32",fontsize=10];
+  c0:Out0 -> c9:In0 [label="32",fontsize=10];
+  c0:Out0 -> c9:In1 [label="32",fontsize=10];
+  c0:Out1 -> c10:In0 [label="32",fontsize=10];
+  c0:Out1 -> c10:In1 [label="32",fontsize=10];
+  c0:Out2 -> c11:In0 [label="32",fontsize=10];
+  c0:Out2 -> c11:In1 [label="32",fontsize=10];
+  c0:Out3 -> c12:In0 [label="32",fontsize=10];
+  c0:Out3 -> c12:In1 [label="32",fontsize=10];
+  c0:Out4 -> c13:In0 [label="32",fontsize=10];
+  c0:Out4 -> c13:In1 [label="32",fontsize=10];
+  c0:Out5 -> c14:In0 [label="32",fontsize=10];
+  c0:Out5 -> c14:In1 [label="32",fontsize=10];
+  c0:Out6 -> c15:In0 [label="32",fontsize=10];
+  c0:Out6 -> c15:In1 [label="32",fontsize=10];
+  c0:Out7 -> c16:In0 [label="32",fontsize=10];
+  c0:Out7 -> c16:In1 [label="32",fontsize=10];
+}
+
+// Components: 7 add, 8 mul, 15 total. Depth: 4.

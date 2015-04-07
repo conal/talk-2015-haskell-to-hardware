@@ -1,0 +1,23 @@
+digraph bitonic_up_1 {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  ranksep="0.75";
+  c1 [label="{In|{<Out0>|<Out1>}}"];
+  c2 [label="{{<In0>|<In1>}|Out}"];
+  c4 [label="{{<In0>|<In1>|<In2>}|if|{<Out0>}}"];
+  c5 [label="{{<In0>|<In1>|<In2>}|if|{<Out0>}}"];
+  c6 [label="{{<In0>|<In1>}|≤|{<Out0>}}"];
+  c4:Out0 -> c2:In0 [label=32,fontsize=10];
+  c5:Out0 -> c2:In1 [label=32,fontsize=10];
+  c6:Out0 -> c4:In0 [];
+  c1:Out0 -> c4:In1 [label=32,fontsize=10];
+  c1:Out1 -> c4:In2 [label=32,fontsize=10];
+  c6:Out0 -> c5:In0 [];
+  c1:Out1 -> c5:In1 [label=32,fontsize=10];
+  c1:Out0 -> c5:In2 [label=32,fontsize=10];
+  c1:Out0 -> c6:In0 [label=32,fontsize=10];
+  c1:Out1 -> c6:In1 [label=32,fontsize=10];
+}
+
+// Components: 2 if, 1 ≤, 3 total. Max depth: 2.

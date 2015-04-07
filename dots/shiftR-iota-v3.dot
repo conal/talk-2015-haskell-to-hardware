@@ -1,0 +1,16 @@
+digraph shiftR_iota_v3 {
+  rankdir=LR;
+  node [shape=Mrecord];
+  bgcolor=transparent;
+  c1 [label="{{<In0>}|Cons 0|{<Out0>}}"];
+  c2 [label="{{<In0>}|Cons 1|{<Out0>}}"];
+  c3 [label="{{<In0>}|Cons 2|{<Out0>}}"];
+  c4 [label="{In|{<Out0>}}"];
+  c6 [label="{{<In0>}|Out}"];
+  c2:Out0 -> c1:In0 [label=32,fontsize=10];
+  c3:Out0 -> c2:In0 [label=32,fontsize=10];
+  c4:Out0 -> c3:In0 [label=32,fontsize=10];
+  c1:Out0 -> c6:In0 [label=32,fontsize=10];
+}
+
+// No components.
