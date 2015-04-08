@@ -12,3 +12,4 @@ For the last several years, speed improvements in computing come mainly from inc
 
  </blockquote>
 
+The compiler has been [developed openly](https://github.com/conal/lambda-ccc/) and is shared freely.
