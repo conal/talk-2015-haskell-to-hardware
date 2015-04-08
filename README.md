@@ -4,6 +4,8 @@ I gave an earlier version of this talk first at IFIP Working Group 2.8 (function
 
 You can find [the slides (PDF)](http://conal.net/talks/haskell-to-hardware.pdf) in [my talks folder](http://conal.net/talks/).
 
+The compiler is being [developed openly](https://github.com/conal/lambda-ccc/) and is shared freely.
+
 Abstract:
 
  <blockquote>
@@ -11,5 +13,3 @@ Abstract:
 For the last several years, speed improvements in computing come mainly from increasing parallelism. Imperative programming, however, makes parallelization very difficult due to the many possible dependencies implied by effects. For decades, pure functional programming has held the promise of parallel execution while retaining the very simple semantics that enables practical, rigorous reasoning. This talk describes a prototype compiler from Haskell (not a library) to low-level hardware descriptions for massively parallel execution on reprogrammable logic devices. The compiler works by monomorphizing, miscellaneous other transformations, and conversion to the vocabulary of cartesian closed categories (CCCs), as captured in a small collection of Haskell type classes. One instance of those classes provides an interpretation as parallel circuits. I will show many examples of simple Haskell programs and corresponding compiler-generated circuits.
 
  </blockquote>
-
-The compiler has been [developed openly](https://github.com/conal/lambda-ccc/) and is shared freely.
