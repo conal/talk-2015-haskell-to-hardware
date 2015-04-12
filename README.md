@@ -4,6 +4,8 @@ I gave an earlier version of this talk first at IFIP Working Group 2.8 (function
 
 You can find [the slides (PDF)](http://conal.net/talks/haskell-to-hardware.pdf) in [my talks folder](http://conal.net/talks/).
 
+There is a [Reddit discussion of the slides](https://www.reddit.com/r/haskell/comments/31yy5z/from_haskell_to_hardware_via_cccs/).
+
 The compiler is being [developed openly](https://github.com/conal/lambda-ccc/) and is shared freely.
 
 Abstract:
