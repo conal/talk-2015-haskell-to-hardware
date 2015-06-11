@@ -50,6 +50,9 @@
 
 \input{macros}
 
+%\nc\partframe[1]{\framet{}{\begin{center} \vspace{6ex} {\Huge #1} \end{center}}}
+\nc\partframe[1]{\framet{}{\begin{center} \Huge \emph{\textcolor{blue}{#1}} \end{center}}}
+
 %include polycode.fmt
 %include forall.fmt
 %include greek.fmt
@@ -198,9 +201,23 @@ endmodule
 \wfig{3in}{figures/sumSquare-t4}
 }
 
-\framet{}{\begin{center} \huge{\emph{\textcolor{blue}{How it works}}} \end{center}}
+\partframe{How it works}
 
-\framet{Overall plan}{
+\framet{Inutition: overloading lambda}{\parskip3ex
+
+Powerful abstraction mechanisms:
+\begin{itemize}\parskip1ex
+\item Lambda/application
+\item Type classes
+\end{itemize}
+
+\vspace{1ex}
+
+Can we use type classes to generalize lambda \& application?
+
+}
+
+\framet{Technical plan}{
 
 \begin{itemize}\parskip2ex
 \item Convert Haskell to Core (GHC).
@@ -220,40 +237,6 @@ Initial simplifications:
 \item Combinational
 \end{itemize}
 %endif
-
-}
-
-\framet{GHC Core}{
-
-> data Expr b	-- ``b'' for the type of binders, 
->   =  Var   Id
->   |  Lit   Literal
->   |  App   (Expr b) (Expr b)
->   |  Lam   b (Expr b)
->   |  Let   (Bind b) (Expr b)
->   |  Case  (Expr b) b Type [Alt b]
->   |  Cast  (Expr b) Coercion
->   |  Type  Type
-> 
-> type Alt b = (AltCon, [b], Expr b)
-> 
-> data AltCon = DataAlt DataCon | LitAlt  Literal | DEFAULT
-> 
-> data Bind b = NonRec b (Expr b) | Rec [(b, Expr b)]
-
-}
-
-\framet{Overloading lambda}{\parskip3ex
-
-Powerful abstraction mechanisms:
-\begin{itemize}\parskip1ex
-\item Lambda/application
-\item Type classes
-\end{itemize}
-
-\vspace{1ex}
-
-Can we use type classes to generalize lambda \& application?
 
 }
 
@@ -371,7 +354,29 @@ Laws (dual to product):
 
 }
 
-\framet{Lambda terms}{
+\framet{GHC Core}{
+
+\pause
+
+> data Expr b	-- ``b'' for the type of binders, 
+>   =  Var   Id
+>   |  Lit   Literal
+>   |  App   (Expr b) (Expr b)
+>   |  Lam   b (Expr b)
+>   |  Let   (Bind b) (Expr b)
+>   |  Case  (Expr b) b Type [Alt b]
+>   |  Cast  (Expr b) Coercion
+>   |  Type  Type
+> 
+> type Alt b = (AltCon, [b], Expr b)
+> 
+> data AltCon = DataAlt DataCon | LitAlt  Literal | DEFAULT
+> 
+> data Bind b = NonRec b (Expr b) | Rec [(b, Expr b)]
+
+}
+
+\framet{Lambda term GADT}{
 
 > data E :: * -> * SPACE where
 >   Var    :: V a -> E a
@@ -419,22 +424,22 @@ Laws (dual to product):
 
 }
 
-\framet{}{\begin{center} \huge{\emph{\textcolor{blue}{Examples}}} \end{center}}
+\partframe{Examples}
 
 %if False
 \framet{|sumSquare :: RTree N2 Int -> Int|}{
 
 \begin{center}
-\begin{minipage}[c]{0.35\textwidth}\ \end{minipage}
-\begin{minipage}[c]{0.4\textwidth}
+\begin{minipage}[c]{0.3\textwidth}\ \end{minipage}
+\begin{minipage}[c]{0.5\textwidth}
 
 > sumSquare = sum . fmap square
 
 \end{minipage}
 \end{center}
 
-\vspace{-13ex}
-\wfig{3.2in}{figures/sumSquare-t2}
+\vspace{-10ex}
+\wfig{5in}{figures/sumSquare-t2}
 
 }
 %endif
@@ -734,7 +739,7 @@ For |dot|, typically |g == Pair|.
 
 \framet{|dot :: Pair (RTree N2 Int) -> Int|}{
 \vspace{-2ex}
-\wfig{4.5in}{figures/dotsp-pt2}
+\wfig{4.8in}{figures/dotsp-pt2}
 }
 
 %if False
