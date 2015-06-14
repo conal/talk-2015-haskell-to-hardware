@@ -446,6 +446,8 @@ Laws (dual to product):
 
 \framet{|sumSquare :: RTree N2 Int -> Int|}{
 
+\pause
+
 \begin{center}
 {\tiny
 \begin{verbatim}
@@ -986,7 +988,9 @@ etc.
 
 \framet{Synchronous stream transformers}{
 
-> data Mealy a b = forall s. C s => Mealy ((a,s) -> (b,s)) s
+% > data Mealy a b = forall s. C s => Mealy ((a,s) -> (b,s)) s
+
+> data Mealy a b = forall s. Mealy ((a,s) -> (b,s)) s
 
 Semantics:
 
