@@ -8,6 +8,8 @@ You can find [the slides (PDF)](http://conal.net/talks/haskell-to-hardware.pdf) 
 
 There is a [Reddit discussion of the slides](https://www.reddit.com/r/haskell/comments/31yy5z/from_haskell_to_hardware_via_cccs/).
 
+Joe Nelson recorded a [video of the BayHac version](http://begriffs.com/posts/2015-06-28-haskell-to-hardware.html).
+
 The compiler is being [developed openly](https://github.com/conal/lambda-ccc/) and is shared freely.
 
 Abstract:
