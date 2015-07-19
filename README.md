@@ -7,6 +7,7 @@ This talk describes my project at Tabula Inc for compiling Haskell to hardware.
 *   There is a [Reddit discussion of the slides](https://www.reddit.com/r/haskell/comments/31yy5z/from_haskell_to_hardware_via_cccs/) (Galois version).
 *   Joe Nelson recorded a [video of the BayHac version](http://begriffs.com/posts/2015-06-28-haskell-to-hardware.html).
 *   The compiler is being [developed openly](https://github.com/conal/lambda-ccc/) and is shared freely.
+*   [My blog](http://conal.net/blog) contains a few articles about the approach to compiling Haskell to hardware.
 
 Abstract:
 
