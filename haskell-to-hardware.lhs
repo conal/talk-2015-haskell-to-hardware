@@ -203,7 +203,7 @@ endmodule
 
 \partframe{How it works}
 
-\framet{Inutition: overloading lambda}{\parskip3ex
+\framet{Intuition: overloading lambda}{\parskip3ex
 
 Powerful abstraction mechanisms:
 \begin{itemize}\parskip1ex
